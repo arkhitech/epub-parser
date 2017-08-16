@@ -47,7 +47,7 @@ module EPUB
 
         # @return [Item, nil] item which includes "cover-image" as one of +properties+. It represents this item is cover image.
         def cover_image
-          items.find(&:cover_image?)
+          items.find(&:cover_image?) || items.find(&:cover?)
         end
 
         # @overload each_item
@@ -164,9 +164,12 @@ module EPUB
           def nav?
             properties.include? 'nav'
           end
-
+          
+          def cover?
+            self.id == 'cover'
+          end
           def cover_image?
-            properties.include? 'cover-image'
+            properties.include?('cover-image')
           end
 
           # @todo Handle circular fallback chain
